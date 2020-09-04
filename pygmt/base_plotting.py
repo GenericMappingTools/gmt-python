@@ -305,6 +305,7 @@ class BasePlotting:
         Project grids or images and plot them on maps.
 
         Takes a grid file name or an xarray.DataArray object as input.
+        Alternatively, pass in a list of red, green, blue grids to be imaged.
 
         Full option list at :gmt-docs:`grdimage.html`
 
@@ -312,20 +313,43 @@ class BasePlotting:
 
         Parameters
         ----------
-        grid : str or xarray.DataArray
+        grid : str, xarray.DataArray or list
             The file name of the input grid or the grid loaded as a DataArray.
-
+            For plotting RGB grids, pass in a list made up of either file names or
+            DataArrays to the individual red, green and blue grids.
         """
         kwargs = self._preprocess(**kwargs)
-        kind = data_kind(grid, None, None)
+
+        if isinstance(grid, list):
+            if all([data_kind(g) == "file" for g in grid]):
+                kind = "file"
+                grid = " ".join(grid)
+            elif all([data_kind(g) == "grid" for g in grid]):
+                kind = "grid"
+        else:
+            kind = data_kind(grid)
+
         with Session() as lib:
             if kind == "file":
-                file_context = dummy_context(grid)
+                file_contexts = [dummy_context(grid)]
             elif kind == "grid":
-                file_context = lib.virtualfile_from_grid(grid)
+                if isinstance(grid, list):
+                    file_contexts = [
+                        lib.virtualfile_from_grid(grid[0]),
+                        lib.virtualfile_from_grid(grid[1]),
+                        lib.virtualfile_from_grid(grid[2]),
+                    ]
+                else:
+                    file_contexts = [lib.virtualfile_from_grid(grid)]
             else:
                 raise GMTInvalidInput("Unrecognized data type: {}".format(type(grid)))
-            with file_context as fname:
+            with contextlib.ExitStack() as stack:
+                fname = " ".join(
+                    [
+                        stack.enter_context(file_context)
+                        for file_context in file_contexts
+                    ]
+                )
                 arg_str = " ".join([fname, build_arg_string(kwargs)])
                 lib.call_module("grdimage", arg_str)
 
