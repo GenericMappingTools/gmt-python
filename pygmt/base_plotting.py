@@ -10,11 +10,12 @@ from .clib import Session
 from .exceptions import GMTError, GMTInvalidInput
 from .helpers import (
     build_arg_string,
-    dummy_context,
     data_kind,
+    dummy_context,
     fmt_docstring,
-    use_alias,
     kwargs_to_strings,
+    tempfile_from_buffer,
+    use_alias,
 )
 
 
@@ -799,10 +800,11 @@ class BasePlotting:
 
         Parameters
         ----------
-        spec : None or str
-            Either None (default) for using the automatically generated legend
-            specification file, or a filename pointing to the legend
-            specification file.
+        spec : None or str or io.StringIO
+            Set to None (default) for using the automatically generated legend
+            specification file. Alternatively, pass in a filename or an
+            io.StringIO in-memory stream buffer pointing to the legend
+            specification text.
         {J}
         {R}
         position : str
@@ -827,13 +829,17 @@ class BasePlotting:
 
         with Session() as lib:
             if spec is None:
-                specfile = ""
+                file_context = dummy_context("")
             elif data_kind(spec) == "file":
-                specfile = spec
+                file_context = dummy_context(spec)
+            elif data_kind(spec) == "buffer":
+                file_context = tempfile_from_buffer(spec)
             else:
-                raise GMTInvalidInput("Unrecognized data type: {}".format(type(spec)))
-            arg_str = " ".join([specfile, build_arg_string(kwargs)])
-            lib.call_module("legend", arg_str)
+                raise GMTInvalidInput(f"Unrecognized data type: {type(spec)}")
+
+            with file_context as fname:
+                arg_str = " ".join([fname, build_arg_string(kwargs)])
+                lib.call_module("legend", arg_str)
 
     @fmt_docstring
     @use_alias(
