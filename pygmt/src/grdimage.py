@@ -1,6 +1,8 @@
 """
 grdimage - Plot grids or images.
 """
+import contextlib
+
 from pygmt.clib import Session
 from pygmt.exceptions import GMTInvalidInput
 from pygmt.helpers import (
@@ -125,19 +127,21 @@ def grdimage(self, grid, **kwargs):
         paint the mask with the given color. Append **+b** to paint the
         background pixels (1) or **+f** for the foreground pixels
         [Default].
-    shading : str
+    shading : str or xarray.DataArray
         ``[intensfile|intensity|modifiers]``.
-        Give the name of a grid file with intensities in the (-1,+1) range,
-        or a constant intensity to apply everywhere (affects the ambient
-        light). Alternatively, derive an intensity grid from the input data
-        grid via a call to `grdgradient`; append **+a**\\ *azimuth*,
-        **+n**\\ *args*, and **+m**\\ *ambient* to specify azimuth,
-        intensity, and ambient arguments for that module, or just give
-        **+d** to select the default arguments (``+a-45+nt1+m0``). If you
-        want a more specific intensity scenario then run `grdgradient`
-        separately first. If we should derive intensities from another file
-        than grid, specify the file with suitable modifiers [Default is no
-        illumination].
+        Give the name of a grid file or a DataArray with intensities in the
+        (-1,+1) range, or a constant intensity to apply everywhere (affects
+        the ambient light). Alternatively, derive an intensity grid from the
+        input data grid via a call to `grdgradient`; append
+        **+a**\\ *azimuth*, **+n**\\ *args*, and **+m**\\ *ambient* to
+        specify azimuth, intensity, and ambient arguments for that module,
+        or just give **+d** to select the default arguments
+        (``+a-45+nt1+m0``). If you want a more specific intensity scenario
+        then run `grdgradient` separately first. If we should derive
+        intensities from another file than grid, specify the file with
+        suitable modifiers [Default is no illumination]. Note: If the input
+        data is an image then an intensfile or constant intensity must be
+        provided.
     {J}
     monochrome : bool
         Force conversion to monochrome image using the (television) YIQ
@@ -166,7 +170,14 @@ def grdimage(self, grid, **kwargs):
         elif kind == "grid":
             file_context = lib.virtualfile_from_grid(grid)
         else:
-            raise GMTInvalidInput("Unrecognized data type: {}".format(type(grid)))
-        with file_context as fname:
+            raise GMTInvalidInput(f"Unrecognized data type: {type(grid)}")
+
+        with contextlib.ExitStack() as stack:
+            # shading using an xr.DataArray
+            if "I" in kwargs and data_kind(kwargs["I"]) == "grid":
+                shading_context = lib.virtualfile_from_grid(kwargs["I"])
+                kwargs["I"] = stack.enter_context(shading_context)
+
+            fname = stack.enter_context(file_context)
             arg_str = " ".join([fname, build_arg_string(kwargs)])
             lib.call_module("grdimage", arg_str)
