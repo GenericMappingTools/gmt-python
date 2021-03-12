@@ -38,6 +38,10 @@ jobs:
           - os: macOS-latest
             isDraft: true
           - os: windows-latest
+            python-version: 3.7
+            isDraft: true
+          - os: windows-latest
+            python-version: 3.8
             isDraft: true
           - os: ubuntu-latest
             python-version: 3.7
@@ -65,24 +69,32 @@ jobs:
           # fecth all history so that setuptools-scm works
           fetch-depth: 0
 
-      # Setup Miniconda
-      - name: Setup Miniconda
-        uses: conda-incubator/setup-miniconda@v2.0.1
+      - name: Cache conda
+        uses: actions/cache@v1
+        env:
+          # Increase this value to reset cache if etc/example-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('environment.yml') }}
+
+      # Install Mambaforge with conda-forge dependencies
+      - name: Setup Mambaforge
+        uses: conda-incubator/setup-miniconda@2fc91a2ef82dfb50ded2d80e56f83b7039ba5955
         with:
           activate-environment: pygmt
           python-version: ${{ matrix.python-version }}
-          channels: conda-forge
-          miniconda-version: "latest"
-
-      # Install GMT and other required dependencies from conda-forge
-      - name: Install dependencies
-        shell: bash -l {0}
-        run: conda env update --file environment.yml
+          environment-file: environment.yml
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          mamba-version: "*"
+          use-mamba: true
 
       # Show installed pkg information for postmortem diagnostic
       - name: List installed packages
         shell: bash -l {0}
-        run: conda list
+        run: mamba list
 
       # Download cached remote files (artifacts) from GitHub
       - name: Download remote data from GitHub
