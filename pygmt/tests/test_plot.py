@@ -91,19 +91,23 @@ def test_plot_fail_no_data(data):
         )
 
 
-def test_plot_fail_color_size_intensity(data):
+def test_plot_fail_1d_array_using_data(data):
     """
-    Should raise an exception if array color, sizes and intensity are used with
-    matrix.
+    Should raise an exception if array color, sizes, intensity and symbol are
+    used with matrix.
     """
     fig = Figure()
     kwargs = dict(data=data, region=region, projection="X10c", frame="afg")
     with pytest.raises(GMTInvalidInput):
         fig.plot(style="c0.2c", color=data[:, 2], **kwargs)
     with pytest.raises(GMTInvalidInput):
-        fig.plot(style="cc", sizes=data[:, 2], color="red", **kwargs)
+        fig.plot(style="cc", color="red", sizes=data[:, 2], **kwargs)
     with pytest.raises(GMTInvalidInput):
         fig.plot(style="c0.2c", color="red", intensity=data[:, 2], **kwargs)
+    with pytest.raises(GMTInvalidInput):
+        fig.plot(
+            style="0.2c", color="red", symbol=np.full(len(data[:, 2]), "c"), **kwargs
+        )
 
 
 @pytest.mark.mpl_image_compare
@@ -291,6 +295,25 @@ def test_plot_sizes_colors_transparencies():
         sizes=size,
         cmap="gray",
         transparency=transparency,
+    )
+    return fig
+
+
+@pytest.mark.mpl_image_compare
+def test_plot_symbols(data, region):
+    """
+    Plot the data using array-like symbols.
+    """
+    fig = Figure()
+    fig.plot(
+        x=data[:, 0],
+        y=data[:, 1],
+        region=region,
+        projection="X4c",
+        color="blue",
+        sizes=np.full(len(data[:, 0]), 0.5),
+        symbol=np.full(len(data[:, 0]), "c"),
+        frame="af",
     )
     return fig
 
