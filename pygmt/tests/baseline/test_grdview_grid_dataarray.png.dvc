@@ -1,0 +1,4 @@
+outs:
+- md5: 0509ffd6f5964257d4fc7fc6451c1358
+  size: 6117
+  path: test_grdview_grid_dataarray.png

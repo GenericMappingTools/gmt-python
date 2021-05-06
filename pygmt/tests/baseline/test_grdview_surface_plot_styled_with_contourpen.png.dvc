@@ -1,0 +1,4 @@
+outs:
+- md5: 9a8ea02139cf7496e0b020fc6286e78e
+  size: 62181
+  path: test_grdview_surface_plot_styled_with_contourpen.png
