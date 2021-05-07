@@ -3,6 +3,7 @@ Utilities for dealing with temporary file management.
 """
 import os
 import uuid
+from contextlib import contextmanager
 from tempfile import NamedTemporaryFile
 
 import numpy as np
@@ -104,3 +105,54 @@ class GMTTempFile:
             Data read from the text file.
         """
         return np.loadtxt(self.name, **kwargs)
+
+
+@contextmanager
+def tempfile_from_geojson(geojson):
+    """
+    Saves any geo-like Python object which implements ``__geo_interface__``
+    (e.g. a geopandas GeoDataFrame) to a temporary OGR_GMT text file.
+
+    Parameters
+    ----------
+    geojson : geopandas.GeoDataFrame
+        A geopandas GeoDataFrame, or any geo-like Python object which
+        implements __geo_interface__, i.e. a GeoJSON
+
+    Yields
+    ------
+    tmpfilename : str
+        A temporary OGR_GMT format file holding the geographical data.
+        E.g. 'track-1a2b3c4.tsv'.
+    """
+    with GMTTempFile(suffix=".gmt") as tmpfile:
+        os.remove(tmpfile.name)  # ensure file is deleted first
+        ogrgmt_kwargs = dict(filename=tmpfile.name, driver="OGR_GMT", mode="w")
+        try:
+            # Using geopandas.to_file to directly export to OGR_GMT format
+            geojson.to_file(**ogrgmt_kwargs)
+        except AttributeError:
+            # pylint: disable=import-outside-toplevel
+            # Other 'geo' formats which implement __geo_interface__
+            import json
+
+            import fiona
+            import geopandas as gpd
+
+            with fiona.Env():
+                jsontext = json.dumps(geojson.__geo_interface__)
+                # Do Input/Output via Fiona virtual memory
+                with fiona.io.MemoryFile(file_or_bytes=jsontext.encode()) as memfile:
+                    geoseries = gpd.GeoSeries.from_file(filename=memfile)
+                    geoseries.to_file(**ogrgmt_kwargs)
+
+                #     with memfile.open(driver="GeoJSON") as collection:
+                #         # Get schema from GeoJSON
+                #         schema = collection.schema
+                # # Write to temporary OGR_GMT format file
+                # with fiona.open(
+                #    fp=tmpfile.name, mode="w", driver="OGR_GMT", schema=schema
+                # ) as ogrgmtfile:
+                #     ogrgmtfile.write(geojson.__geo_interface__)
+
+        yield tmpfile.name
