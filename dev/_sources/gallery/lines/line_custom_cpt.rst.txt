@@ -44,8 +44,8 @@ color.
 
  .. code-block:: none
 
-
     <IPython.core.display.Image object>
+
 
 
 
@@ -59,7 +59,7 @@ color.
     import numpy as np
     import pygmt
 
-    # Create a list of values between 20 and 30 with at 0.2 intervals
+    # Create a list of values between 20 and 30 with 0.2 intervals
     x = np.arange(start=20, stop=30, step=0.2)
 
     fig = pygmt.Figure()
@@ -79,7 +79,7 @@ color.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.195 seconds)
+   **Total running time of the script:** ( 0 minutes  2.697 seconds)
 
 
 .. _sphx_glr_download_gallery_lines_line_custom_cpt.py:

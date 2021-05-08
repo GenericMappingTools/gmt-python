@@ -2,12 +2,11 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
     
         <title>pygmt.src.grdtrack &mdash; PyGMT</title>
@@ -15,14 +14,29 @@
 
 
   
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
+
+  
   
     <link rel="shortcut icon" href="../../../_static/favicon.png"/>
   
+
   
   
 
   
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -35,16 +49,6 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <!-- Google Analytics tracking code -->
@@ -99,6 +103,7 @@
 
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
     
@@ -112,16 +117,21 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/first_figure.html">Making your first figure</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../gallery/index.html">Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../external_resources.html">External Resources</a></li>
 </ul>
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/frames.html">Frames, ticks, titles, and labels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../projections/index.html">Projections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/coastlines.html">Coastlines and borders</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/regions.html">Set the region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/regions.html">Setting the region</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/plot.html">Plotting data points</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/lines.html">Plot lines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/lines.html">Plotting lines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/vectors.html">Plotting vectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/text.html">Plotting text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/contour_map.html">Creating a map with contour lines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/earth_relief.html">Plotting Earth relief</a></li>
@@ -134,6 +144,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../changes.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../maintenance.html">Maintainers Guide</a></li>
 </ul>
 
             
@@ -159,6 +170,7 @@
     
 
         </div>
+        
       </div>
     </nav>
 
@@ -194,11 +206,13 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
@@ -230,7 +244,6 @@
     <span class="n">GMTTempFile</span><span class="p">,</span>
     <span class="n">build_arg_string</span><span class="p">,</span>
     <span class="n">data_kind</span><span class="p">,</span>
-    <span class="n">dummy_context</span><span class="p">,</span>
     <span class="n">fmt_docstring</span><span class="p">,</span>
     <span class="n">use_alias</span><span class="p">,</span>
 <span class="p">)</span>
@@ -248,7 +261,7 @@
 <span class="sd">    table with the interpolated values added as (one or more) new columns. A</span>
 <span class="sd">    bicubic [Default], bilinear, B-spline or nearest-neighbor interpolation is</span>
 <span class="sd">    used, requiring boundary conditions at the limits of the region (see</span>
-<span class="sd">    ``interpolation``; Default uses “natural” conditions (second partial</span>
+<span class="sd">    ``interpolation``; Default uses &quot;natural&quot; conditions (second partial</span>
 <span class="sd">    derivative normal to edge is zero) unless the grid is automatically</span>
 <span class="sd">    recognized as periodic.)</span>
 
@@ -273,8 +286,7 @@
 <span class="sd">        sampled values will be placed.</span>
 
 <span class="sd">    outfile : str</span>
-<span class="sd">        Required if ``points`` is a file. The file name for the output ASCII</span>
-<span class="sd">        file.</span>
+<span class="sd">        The file name for the output ASCII file.</span>
 
 <span class="sd">    {V}</span>
 <span class="sd">    {f}</span>
@@ -290,21 +302,13 @@
 <span class="sd">        - None if ``outfile`` is set (track output will be stored in file set</span>
 <span class="sd">          by ``outfile``)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data_kind</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;matrix&quot;</span> <span class="ow">and</span> <span class="n">newcolname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">GMTInvalidInput</span><span class="p">(</span><span class="s2">&quot;Please pass in a str to &#39;newcolname&#39;&quot;</span><span class="p">)</span>
 
     <span class="k">with</span> <span class="n">GMTTempFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.csv&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmpfile</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">lib</span><span class="p">:</span>
-            <span class="c1"># Store the pandas.DataFrame points table in virtualfile</span>
-            <span class="k">if</span> <span class="n">data_kind</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;matrix&quot;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">newcolname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">GMTInvalidInput</span><span class="p">(</span><span class="s2">&quot;Please pass in a str to &#39;newcolname&#39;&quot;</span><span class="p">)</span>
-                <span class="n">table_context</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">virtualfile_from_matrix</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">data_kind</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;file&quot;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">outfile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">GMTInvalidInput</span><span class="p">(</span><span class="s2">&quot;Please pass in a str to &#39;outfile&#39;&quot;</span><span class="p">)</span>
-                <span class="n">table_context</span> <span class="o">=</span> <span class="n">dummy_context</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">GMTInvalidInput</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized data type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
+            <span class="c1"># Choose how data will be passed into the module</span>
+            <span class="n">table_context</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">virtualfile_from_data</span><span class="p">(</span><span class="n">check_kind</span><span class="o">=</span><span class="s2">&quot;vector&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">points</span><span class="p">)</span>
             <span class="c1"># Store the xarray.DataArray grid in virtualfile</span>
             <span class="n">grid_context</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">virtualfile_from_data</span><span class="p">(</span><span class="n">check_kind</span><span class="o">=</span><span class="s2">&quot;raster&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
 
@@ -322,8 +326,11 @@
 
         <span class="c1"># Read temporary csv output to a pandas table</span>
         <span class="k">if</span> <span class="n">outfile</span> <span class="o">==</span> <span class="n">tmpfile</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>  <span class="c1"># if user did not set outfile, return pd.DataFrame</span>
-            <span class="n">column_names</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">newcolname</span><span class="p">]</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">tmpfile</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">column_names</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">column_names</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">newcolname</span><span class="p">]</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">tmpfile</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">column_names</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>  <span class="c1"># &#39;str&#39; object has no attribute &#39;columns&#39;</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">tmpfile</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;&gt;&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">outfile</span> <span class="o">!=</span> <span class="n">tmpfile</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>  <span class="c1"># return None if outfile set, output in outfile</span>
             <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -335,18 +342,19 @@
           </div>
           
 <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017-2021, The PyGMT Developers.
-      
-        <span class="commit">
-          Revision <code><a href="https://github.com/GenericMappingTools/pygmt/commit/8e2b2e6">8e2b2e6</a></code>.
-        </span>
-      
+        &#169; Copyright 2017-2021, The PyGMT Developers.
+      <span class="commit">
+        
+        Revision <code><a href="https://github.com/GenericMappingTools/pygmt/commit/036e2b0">036e2b0</a></code>.
+      </span>
+      <span class="lastupdated">
+        Last updated on May 08, 2021.
+      </span>
 
     </p>
   </div>
@@ -364,7 +372,6 @@ software usage.
 
 
 </footer>
-
         </div>
       </div>
 
@@ -372,7 +379,6 @@ software usage.
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
